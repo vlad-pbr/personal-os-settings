@@ -41,15 +41,8 @@ declare -A STAGES=( \
 # perform commands
 printf '%s\0' "${!STAGES[@]}" | sort -z | tr '\0' '\n' | while read STAGE
 do
-	# set stage index
-	STAGE_INDEX=${STAGE_INDEX:-1}
-
-	# preform command
 	echo -e "\n=== $STAGE ==="
 	bash -c "${STAGES[$STAGE]}" < $USER_TTY
-
-	# increment stage index
-	STAGE_INDEX=$(( $STAGE_INDEX + 1 ))
 done
 
 echo -e "\nA reboot is most likely required"
