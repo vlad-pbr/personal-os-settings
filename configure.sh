@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Personal system configuration for Ubuntu with i3
+
 set -o errexit
 USER_TTY=$(tty)
 
@@ -10,14 +12,21 @@ declare -A STAGES=( \
 	sudo apt-get upgrade" \
 	\
 	["2. Install software"]="\
-	sudo apt-get install curl git python3-pip" \
+	sudo add-apt-repository multiverse && \
+	sudo apt-get update && \
+	sudo apt-get install curl git python3-pip steam" \
 	\
 	["3. Various system configurations"]="\
 	echo Disabling mouse acceleration... && \
-	gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'" \
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat' && \
+	\
+	echo Git user settings... && \
+	git config --global user.email 'vlad.pbr@gmail.com' && \
+	git config --global user.name 'Vlad Poberezhny'" \
 	\
 	["4. Install latest Nvidia driver"]="\
-	sudo ubuntu-drivers install" \
+	sudo ubuntu-drivers install &&\
+	sudo apt-get install libnvidia-gl-\$(ubuntu-drivers list 2> /dev/null | egrep -o '^nvidia-driver-[0-9]*' | cut -d- -f 3 | sort | tail -n1):i386" \
 	\
 	["5. Get kiwi"]="\
 	sudo python3 -m pip install --upgrade pip
@@ -42,3 +51,5 @@ do
 	# increment stage index
 	STAGE_INDEX=$(( $STAGE_INDEX + 1 ))
 done
+
+echo -e "\nA reboot is most likely required"
