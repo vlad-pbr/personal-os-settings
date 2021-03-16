@@ -7,14 +7,23 @@ USER_TTY=$(tty)
 
 # stages and their commands
 declare -A STAGES=( \
-	["1. Update the system"]="\
+	["1. System update"]="\
 	sudo apt-get update
 	sudo apt-get upgrade" \
 	\
 	["2. Install software"]="\
 	sudo add-apt-repository multiverse
 	sudo apt-get update
-	sudo apt-get install curl git python3-pip steam" \
+	sudo apt-get install software-properties-common apt-transport-https gdebi-core wget
+	wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+	sudo add-apt-repository \"deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main\"
+	sudo add-apt-repository \"deb http://repository.spotify.com stable non-free\"
+	wget -O- https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
+	sudo apt-get install curl git python3-pip code steam spotify-client
+	wget -O /tmp/discord.deb \"https://discordapp.com/api/download?platform=linux&format=deb\"
+	sudo gdebi /tmp/discord.deb
+	rm -f /tmp/discord.deb
+	" \
 	\
 	["3. Various system configurations"]="\
 	echo Disabling mouse acceleration...
