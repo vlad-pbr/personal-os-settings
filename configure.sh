@@ -43,11 +43,7 @@ declare -A STAGES_MAIN=( \
 	git config --global user.email 'vlad.pbr@gmail.com'
 	git config --global user.name 'Vlad Poberezhny'" \
 	\
-	["8. Install latest Nvidia driver"]="\
-	sudo ubuntu-drivers install
-	sudo apt-get install libnvidia-gl-\$(ubuntu-drivers list 2> /dev/null | egrep -o '^nvidia-driver-[0-9]*' | cut -d- -f 3 | sort | tail -n1):i386" \
-	\
-	["9. Get kiwi"]="\
+	["8. Get kiwi"]="\
 	sudo python3 -m pip install --upgrade pip
 	mkdir -p $HOME/.local/bin
 	curl https://raw.githubusercontent.com/vlad-pbr/kiwi/master/kiwi > $HOME/.local/bin/kiwi
@@ -55,14 +51,14 @@ declare -A STAGES_MAIN=( \
 	touch $HOME/.bash_profile
 	grep -qxF 'PATH=\"\$HOME/.local/bin:\$PATH\"' $HOME/.bash_profile || echo 'PATH=\"\$HOME/.local/bin:\$PATH\"' >> $HOME/.bash_profile" \
 	\
-	["10. Regolith i3"]="\
+	["9. Regolith i3"]="\
 	sudo add-apt-repository -y ppa:kgilmer/speed-ricer
 	mkdir -p $HOME/.config/regolith/{i3,compton}"\
 	\
 	)
 
 declare -A STAGES=( \
-	["10. Regolith i3"]="\
+	["9. Regolith i3"]="\
         sudo add-apt-repository -y ppa:kgilmer/speed-ricer
 	sudo apt-get install polybar
         mkdir -p $HOME/.config/regolith/{i3,compton}
@@ -70,13 +66,14 @@ declare -A STAGES=( \
 	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
 	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
 	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config"\
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/gtk-3.0/gtk.css > $HOME/.config/gtk-3.0/gtk.css"\
         \
 	)
 
-# TODO old bindings
-# TODO color scheme
+# TODO lock binding
 # TODO polybar
+# TODO sleep/screen timeouts
 
 # perform commands
 printf '%s\0' "${!STAGES[@]}" | sort -z -n | tr '\0' '\n' | while read STAGE
