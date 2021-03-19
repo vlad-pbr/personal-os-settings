@@ -68,7 +68,8 @@ declare -A STAGES=( \
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/launch.sh > $HOME/.config/polybar/launch.sh
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config
-        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/gtk-3.0/gtk.css > $HOME/.config/gtk-3.0/gtk.css"\
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/gtk-3.0/gtk.css > $HOME/.config/gtk-3.0/gtk.css
+	chmod +x $HOME/.config/polybar/launch.sh"\
 	\
 	)
 
