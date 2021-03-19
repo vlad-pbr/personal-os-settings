@@ -6,7 +6,7 @@ set -o errexit
 USER_TTY=$(tty)
 
 # stages and their commands
-declare -A STAGES_MAIN=( \
+declare -A STAGES=( \
 	["1. System update"]="\
 	sudo apt-get update
 	sudo apt-get upgrade" \
@@ -39,6 +39,12 @@ declare -A STAGES_MAIN=( \
 	echo Disabling mouse acceleration...
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
 	
+	echo Disabling screen timeout...
+	gsettings set org.gnome.desktop.session idle-delay 0
+
+	echo Disabling system sleep on idle...
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+
 	echo Git user settings...
 	git config --global user.email 'vlad.pbr@gmail.com'
 	git config --global user.name 'Vlad Poberezhny'" \
@@ -53,28 +59,19 @@ declare -A STAGES_MAIN=( \
 	\
 	["9. Regolith i3"]="\
 	sudo add-apt-repository -y ppa:kgilmer/speed-ricer
-	mkdir -p $HOME/.config/regolith/{i3,compton}"\
+        sudo apt-get install polybar
+        mkdir -p $HOME/.config/regolith/{i3,compton}
+        mkdir -p $HOME/.config/polybar
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/launch.sh > $HOME/.config/polybar/launch.sh
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config
+        curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/gtk-3.0/gtk.css > $HOME/.config/gtk-3.0/gtk.css"\
 	\
 	)
 
-declare -A STAGES=( \
-	["9. Regolith i3"]="\
-        sudo add-apt-repository -y ppa:kgilmer/speed-ricer
-	sudo apt-get install polybar
-        mkdir -p $HOME/.config/regolith/{i3,compton}
-	mkdir -p $HOME/.config/polybar
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/launch.sh > $HOME/.config/polybar/launch.sh
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config
-	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/gtk-3.0/gtk.css > $HOME/.config/gtk-3.0/gtk.css"\
-        \
-	)
-
 # TODO lock binding
-# TODO polybar
-# TODO sleep/screen timeouts
 
 # perform commands
 printf '%s\0' "${!STAGES[@]}" | sort -z -n | tr '\0' '\n' | while read STAGE
@@ -83,4 +80,4 @@ do
 	bash -c "${STAGES[$STAGE]}" < $USER_TTY
 done
 
-echo -e "\nA reboot is most likely required"
+echo -e "\n- nvidia drivers\n- fstab disk mounts (/dev/sdb1  /mnt/primary ntfs-3g uid=1000,gid=1000,rw,user,exec,umask=000 0 0)\n- reboot"
