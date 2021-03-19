@@ -62,6 +62,7 @@ declare -A STAGES=( \
         sudo apt-get install polybar
         mkdir -p $HOME/.config/regolith/{i3,compton}
         mkdir -p $HOME/.config/polybar
+	mkdir -p $HOME/.config/gtk-3.0
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
 	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/bg.jpg > $HOME/.config/regolith/bg.jpg
