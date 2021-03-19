@@ -66,13 +66,17 @@ declare -A STAGES=( \
         sudo add-apt-repository -y ppa:kgilmer/speed-ricer
 	sudo apt-get install polybar
         mkdir -p $HOME/.config/regolith/{i3,compton}
-	mkdir -p $HOME/.config/polybar"\
+	mkdir -p $HOME/.config/polybar
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config"\
         \
 	)
 
-# TODO custom config with bindings
-# TODO compositor transparency, blur
+# TODO old bindings
 # TODO color scheme
+# TODO polybar
 
 # perform commands
 printf '%s\0' "${!STAGES[@]}" | sort -z -n | tr '\0' '\n' | while read STAGE
