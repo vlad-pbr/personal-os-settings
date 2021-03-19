@@ -64,6 +64,7 @@ declare -A STAGES=( \
         mkdir -p $HOME/.config/polybar
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/i3/config > $HOME/.config/regolith/i3/config
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/Xresources > $HOME/.config/regolith/Xresources
+	curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/bg.jpg > $HOME/.config/regolith/bg.jpg
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/regolith/compton/config > $HOME/.config/regolith/compton/config
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/launch.sh > $HOME/.config/polybar/launch.sh
         curl https://raw.githubusercontent.com/vlad-pbr/personal-os-settings/master/polybar/config > $HOME/.config/polybar/config
