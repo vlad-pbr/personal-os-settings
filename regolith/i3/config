@@ -389,7 +389,7 @@ gaps outer $i3-wm.gaps.outer.size
 
 # Only enable gaps on a workspace when there is at least one container
 set_from_resource $i3-wm.gaps.smart i3-wm.gaps.smart on
-smart_gaps $i3-wm.gaps.smart
+# smart_gaps $i3-wm.gaps.smart
 
 # Enable popup during fullscreen
 set_from_resource $i3-wm.gaps.popup_during_fullscreen i3-wm.gaps.popup_during_fullscreen smart
@@ -475,26 +475,26 @@ set_from_resource $i3-wm.bar.stripworkspacenumbers i3-wm.bar.stripworkspacenumbe
 set_from_resource $i3-wm.bar.status_command i3-wm.bar.status_command i3xrocks -u ~/.config/regolith/i3xrocks/conf.d -d /etc/regolith/i3xrocks/conf.d
 
 # The bar configuration
-bar {
-  position $i3-wm.bar.position
-  font $i3-wm.bar.font
-  separator_symbol $i3-wm.bar.separator
-  status_command $i3-wm.bar.status_command
-  tray_output $i3-wm.bar.trayoutput
-  strip_workspace_numbers $i3-wm.bar.stripworkspacenumbers
-
-  colors {
-      background $i3-wm.bar.background.color
-      statusline $i3-wm.bar.statusline.color
-      separator  $i3-wm.bar.separator.color
-
-#                        BORDER  BACKGROUND TEXT
-      focused_workspace  $i3-wm.bar.workspace.focused.border.color      $i3-wm.bar.workspace.focused.background.color   $i3-wm.bar.workspace.focused.text.color
-      active_workspace   $i3-wm.bar.workspace.active.border.color       $i3-wm.bar.workspace.active.background.color    $i3-wm.bar.workspace.active.text.color
-      inactive_workspace $i3-wm.bar.workspace.inactive.border.color     $i3-wm.bar.workspace.inactive.background.color  $i3-wm.bar.workspace.inactive.text.color
-      urgent_workspace   $i3-wm.bar.workspace.urgent.border.color       $i3-wm.bar.workspace.urgent.background.color    $i3-wm.bar.workspace.urgent.text.color
-  }
-}
+#bar {
+#  position $i3-wm.bar.position
+#  font $i3-wm.bar.font
+#  separator_symbol $i3-wm.bar.separator
+#  status_command $i3-wm.bar.status_command
+#  tray_output $i3-wm.bar.trayoutput
+#  strip_workspace_numbers $i3-wm.bar.stripworkspacenumbers
+#
+#  colors {
+#      background $i3-wm.bar.background.color
+#      statusline $i3-wm.bar.statusline.color
+#      separator  $i3-wm.bar.separator.color
+#
+##                        BORDER  BACKGROUND TEXT
+#      focused_workspace  $i3-wm.bar.workspace.focused.border.color      $i3-wm.bar.workspace.focused.background.color   $i3-wm.bar.workspace.focused.text.color
+#      active_workspace   $i3-wm.bar.workspace.active.border.color       $i3-wm.bar.workspace.active.background.color    $i3-wm.bar.workspace.active.text.color
+#      inactive_workspace $i3-wm.bar.workspace.inactive.border.color     $i3-wm.bar.workspace.inactive.background.color  $i3-wm.bar.workspace.inactive.text.color
+#      urgent_workspace   $i3-wm.bar.workspace.urgent.border.color       $i3-wm.bar.workspace.urgent.background.color    $i3-wm.bar.workspace.urgent.text.color
+#  }
+#}
 
 ###############################################################################
 # External programs launched with i3
@@ -525,3 +525,20 @@ set_from_resource $i3-wm.program.2 i3-wm.program.2 :
 exec --no-startup-id $i3-wm.program.2
 set_from_resource $i3-wm.program.3 i3-wm.program.3 :
 exec --no-startup-id $i3-wm.program.3
+
+# bindings
+#bindsym $mod+l exec --no-startup-id blurlock
+#bindsym $mod+equal exec --no-startup-id spotify_controls -l
+
+# workspace specific apps
+assign [class="Firefox"] $ws2
+for_window [class = "Spotify"] move to workspace $ws3
+assign [class="(Steam|discord)"] $ws4
+
+exec --no-startup-id i3-msg 'workspace $ws1; exec /usr/bin/gnome-terminal'
+exec --no-startup-id i3-msg 'workspace $ws2; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace $ws3; exec /usr/bin/spotify'
+exec --no-startup-id i3-msg 'workspace $ws4; exec /usr/games/steam; exec /usr/bin/discord'
+
+# polybar
+exec_always --no-startup-id polybar main
