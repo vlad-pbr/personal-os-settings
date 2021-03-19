@@ -7,11 +7,11 @@ alert = #bd2c40
 
 [bar/main]
 width = 100%
-height = 3%
+height = 4%
 radius = 0
 fixed-center = true
 wm-restack = i3
-override-redirect = false
+override-redirect = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -20,17 +20,18 @@ line-size = 0
 border-size = 0
 
 padding-left = 0
-padding-right = 7
+padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = TerminessTTF Nerd Font Mono:size=15:style=Medium
-font-1 = TerminessTTF Nerd Font Mono:size=15:style=Medium
-font-2 = TerminessTTF Nerd Font Mono:size=15:style=Medium
+font-0 = Misc Termsyn:size=10;1
+font-1 = TerminessTTF Nerd Font Mono:size=10:style=Medium
+font-2 = TerminessTTF Nerd Font Mono:size=10:style=Medium
+font-3 = FontAwesome:style=Regular
 
 modules-left =
 modules-center =
-modules-right = date
+modules-right = external-ip wired-network memory temperature cpu pulseaudio date
 
 tray-position = right
 tray-padding = 2
@@ -43,38 +44,61 @@ type = internal/date
 interval = 1
 
 date =
-date-alt = " %Y-%m-%d"
+date-alt = "   %Y-%m-%d  -"
 
-time = %H:%M
-time-alt = %H:%M:%S
+time = "   %a %b %d  -  %I:%M %p   "
+time-alt = "  %H:%M:%S   "
 
 label = %date% %time%
 
-;[module/alsa]
-;type = internal/alsa
-;
-;format-volume = <label-volume> <bar-volume>
-;label-volume = 墳
-;label-volume-foreground = ${root.foreground}
-;
-;format-muted-foreground = ${colors.foreground}
-;label-muted = ﱝ
-;
-;bar-volume-width = 10
-;bar-volume-indicator = o
-;bar-volume-indicator-font = 2
-;bar-volume-fill = ─
-;bar-volume-fill-font = 2
-;bar-volume-fill-foreground = #228a91
-;bar-volume-empty = ─
-;bar-volume-empty-font = 2
-;bar-volume-empty-foreground = ${colors.foreground}
+[module/pulseaudio]
+type = internal/pulseaudio
+interval = 10
+
+format-volume = <bar-volume>
+
+bar-volume-width = 20
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-fill-foreground = #228a91
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground}
+
+[module/cpu]
+type = internal/cpu
+interval = 1
+label = CPU %percentage%% |
+
+[module/memory]
+type = internal/memory
+interval = 1
+label = RAM %gb_used%/%gb_free% |
+
+[module/wired-network]
+type = internal/network
+interface = enp0s31f6
+interval = 1
+
+label-connected = - %local_ip%   %downspeed%  %upspeed% |
+
+[module/temperature]
+type = internal/temperature
+interval = 1
+units = true
+
+[module/external-ip]
+type = custom/script
+interval = 10
+exec = curl -s https://ipecho.net/plain
 
 [settings]
 screenchange-reload = true
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 0
+margin-bottom = 0
 
 ; vim:ft=dosini
