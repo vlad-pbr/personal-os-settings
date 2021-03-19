@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Personal system configuration for Ubuntu with i3
+# Personal system configuration for Regolith
 
 set -o errexit
 USER_TTY=$(tty)
 
 # stages and their commands
-declare -A STAGES=( \
+declare -A STAGES_MAIN=( \
 	["1. System update"]="\
 	sudo apt-get update
 	sudo apt-get upgrade" \
@@ -55,10 +55,27 @@ declare -A STAGES=( \
 	touch $HOME/.bash_profile
 	grep -qxF 'PATH=\"\$HOME/.local/bin:\$PATH\"' $HOME/.bash_profile || echo 'PATH=\"\$HOME/.local/bin:\$PATH\"' >> $HOME/.bash_profile" \
 	\
+	["10. Regolith i3"]="\
+	sudo add-apt-repository -y ppa:kgilmer/speed-ricer
+	mkdir -p $HOME/.config/regolith/{i3,compton}"\
+	\
 	)
 
+declare -A STAGES=( \
+	["10. Regolith i3"]="\
+        sudo add-apt-repository -y ppa:kgilmer/speed-ricer
+	sudo apt-get install polybar
+        mkdir -p $HOME/.config/regolith/{i3,compton}
+	mkdir -p $HOME/.config/polybar"\
+        \
+	)
+
+# TODO custom config with bindings
+# TODO compositor transparency, blur
+# TODO color scheme
+
 # perform commands
-printf '%s\0' "${!STAGES[@]}" | sort -z | tr '\0' '\n' | while read STAGE
+printf '%s\0' "${!STAGES[@]}" | sort -z -n | tr '\0' '\n' | while read STAGE
 do
 	echo -e "\n=== $STAGE ==="
 	bash -c "${STAGES[$STAGE]}" < $USER_TTY

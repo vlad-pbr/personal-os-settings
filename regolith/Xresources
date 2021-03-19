@@ -1,0 +1,4 @@
+gnome.terminal.use-transparent-background: true
+gnome.terminal.background-transparency-percent: 10
+
+i3-wm.gaps.inner.size: 20
